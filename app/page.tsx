@@ -157,7 +157,9 @@ function Navbar() {
       }}
     >
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        <motion.span className="font-bold text-sm" style={{ color: '#3b82f6' }} whileHover={{ scale: 1.1 }}>ML</motion.span>
+        <motion.a href="#" whileHover={{ scale: 1.08 }}>
+          <img src="/logo.jpg" alt="ML" className="rounded-lg" style={{ width: 36, height: 36, objectFit: 'cover' }} />
+        </motion.a>
         <div className="flex items-center gap-6 text-sm" style={{ color: '#64748b' }}>
           {navLinks.map((item, i) => (
             <motion.a key={item.id} href={`#${item.id}`}
