@@ -442,6 +442,10 @@ function Projects() {
       highlights: ['No sign-up', 'Nequi', 'Magic link', 'PWA'],
       screenshots: [
         '/screenshots/divide/01-home.png',
+        '/screenshots/divide/03-wizard-paso1-lleno.png',
+        '/screenshots/divide/05-wizard-paso2-lleno.png',
+        '/screenshots/divide/07-wizard-paso3-lleno.png',
+        '/screenshots/divide/08-vista-final.png',
       ],
     },
   ]
