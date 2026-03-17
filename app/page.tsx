@@ -426,11 +426,11 @@ function Projects() {
       color: '#3b82f6', emoji: '🦷', url: 'https://dentalsystem.online',
       highlights: ['Multi-tenant', 'PDF', 'Odontogram', 'CI/CD'],
       screenshots: [
-        '/screenshots/dental-system/02-dashboard.png',
-        '/screenshots/dental-system/03-patients.png',
-        '/screenshots/dental-system/04-appointments.png',
-        '/screenshots/dental-system/01-login.png',
         '/screenshots/dental-system/05-treatment-plans.png',
+        '/screenshots/dental-system/02-dashboard.png',
+        '/screenshots/dental-system/04-historia-clinica.png',
+        '/screenshots/dental-system/03-patients.png',
+        '/screenshots/dental-system/01-login.png',
       ],
     },
     {
