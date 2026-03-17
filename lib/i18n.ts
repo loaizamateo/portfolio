@@ -81,6 +81,12 @@ export const t = {
     wa:       { es: 'Escribir por WhatsApp',        en: 'Message on WhatsApp' },
     waMsg:    { es: 'Hola Mateo, vi tu portafolio y me gustaría contactarte.', en: 'Hi Mateo, I saw your portfolio and would like to get in touch.' },
   },
+  recommendations: {
+    label:    { es: 'recomendaciones', en: 'recommendations' },
+    title:    { es: 'Lo que dicen de mí', en: 'What people say' },
+    subtitle: { es: 'Recomendaciones de colegas y estudiantes en LinkedIn', en: 'Recommendations from colleagues and students on LinkedIn' },
+    cta:      { es: 'Ver en LinkedIn', en: 'View on LinkedIn' },
+  },
   footer: {
     copy: { es: 'Mateo Loaiza Rios', en: 'Mateo Loaiza Rios' },
   },

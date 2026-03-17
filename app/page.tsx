@@ -6,6 +6,88 @@ import { Github, Linkedin, Mail, Phone, ExternalLink, ChevronDown, Code2, Cloud,
 import { useLang } from '@/lib/lang-context'
 import { t } from '@/lib/i18n'
 
+// ─── RECOMMENDATIONS DATA ─────────────────────────────────────────────────────
+
+const RECS = [
+  {
+    name: 'Youngjae Heo',
+    title: { es: 'CS @ University of Toronto', en: 'CS @ University of Toronto' },
+    rel:   { es: 'Colega en EPAM Systems', en: 'Colleague at EPAM Systems' },
+    avatar: 'YH',
+    color: '#6366f1',
+    text: {
+      es: 'Trabajar con Mateo como desarrollador junior fue una experiencia invaluable. Es un verdadero experto en React, Node.js y AWS. Su pasión es evidente en cada proyecto: entrega trabajo innovador y meticulosamente detallado. Lo que realmente lo distingue es su disposición para apoyar y mentorear a quienes lo rodean. Paciente, accesible y siempre listo para compartir su conocimiento.',
+      en: 'Working with Mateo as a junior developer has been an invaluable experience. Mateo is a true expert in React, Node.js, and AWS cloud development. His passion is evident in every project — innovative and meticulously detailed. What truly sets Mateo apart is his willingness to support and mentor those around him. Patient, approachable, and always ready to share his wealth of knowledge.',
+    },
+  },
+  {
+    name: 'Jonathan Giovanni Carrasco',
+    title: { es: 'Analista Cloud | QA Automation | AWS', en: 'Cloud Analyst | QA Automation | AWS' },
+    rel:   { es: 'Alumno en BeTek', en: 'Student at BeTek' },
+    avatar: 'JC',
+    color: '#3b82f6',
+    text: {
+      es: 'Tuve el placer de ser alumno de Mateo en el bootcamp de analista cloud de Betek. Su pasión por la enseñanza y su profundo conocimiento de AWS hicieron que conceptos complejos fueran fáciles de entender. Su dedicación al éxito de sus alumnos es excepcional: siempre dispuesto a ir más allá para asegurar que comprendan los conceptos y puedan aplicarlos en situaciones reales.',
+      en: 'I had the pleasure of being Mateo\'s student in the Betek cloud analyst bootcamp. His passion for teaching and deep knowledge of AWS made complex concepts easy to understand. His dedication to student success is exceptional — always willing to go the extra mile to ensure concepts are understood and can be applied in real situations.',
+    },
+  },
+  {
+    name: 'Miguel Angel Martinez',
+    title: { es: 'Software Developer @ Attention | Go · TypeScript · AWS', en: 'Software Developer @ Attention | Go · TypeScript · AWS' },
+    rel:   { es: 'Alumno en BeTek', en: 'Student at BeTek' },
+    avatar: 'MM',
+    color: '#06b6d4',
+    text: {
+      es: 'Tuve el privilegio de aprender de Mateo durante mi formación como Analista Cloud. Su amplia experiencia y habilidad para explicar conceptos complejos de manera clara marcaron una gran diferencia. Su enfoque práctico y ejemplos del mundo real me ayudaron a conectar la teoría con su aplicación laboral. Gracias a su mentoría, adquirí conocimientos técnicos sólidos y una visión estratégica del entorno cloud.',
+      en: 'I had the privilege of learning from Mateo during my Cloud Analyst training. His extensive experience and ability to explain complex concepts clearly made a huge difference. His practical approach and real-world examples helped me bridge theory and practice. Thanks to his mentorship, I gained solid technical knowledge and a strategic vision of the cloud environment.',
+    },
+  },
+  {
+    name: 'Yuriangel Sena',
+    title: { es: 'Ingeniero de Datos | Python · AWS · GCP · Power BI', en: 'Data Engineer | Python · AWS · GCP · Power BI' },
+    rel:   { es: 'Alumna en BeTek', en: 'Student at BeTek' },
+    avatar: 'YS',
+    color: '#10b981',
+    text: {
+      es: 'Mateo es un excelente instructor. Su mentoría en el curso de Analista Cloud en Betek me proporcionó una base sólida en cloud computing, AWS y GitHub. Su capacidad para explicar conceptos complejos de manera sencilla y su enfoque práctico hicieron el aprendizaje muy eficiente. Estuvo en todo el proceso, desde lo básico hasta proyectos complejos en la nube, siempre paciente y disponible.',
+      en: 'Mateo is an excellent instructor. His mentorship in the Cloud Analyst course at Betek gave me a solid foundation in cloud computing, AWS and GitHub. His ability to explain complex concepts simply and his practical approach made learning very efficient. He was there throughout the entire process — from the basics to complex cloud projects — always patient and available.',
+    },
+  },
+  {
+    name: 'Lorena Jiménez Arias',
+    title: { es: 'AWS SA Professional | Cloud Specialist | Speaker', en: 'AWS SA Professional | Cloud Specialist | Speaker' },
+    rel:   { es: 'Colega en BeTek', en: 'Colleague at BeTek' },
+    avatar: 'LJ',
+    color: '#f59e0b',
+    text: {
+      es: 'Mateo es un excelente formador en computación en la nube. Su amplia experiencia, sólidos conocimientos y vocación por enseñar lo hacen un formador comprometido con el proceso de sus estudiantes. Fue un honor y una gran oportunidad trabajar con él para llevar la computación en la nube a más personas que buscan oportunidades en esta área de TI.',
+      en: 'Mateo is an excellent cloud computing trainer. His extensive experience, solid knowledge and passion for teaching make him a trainer deeply committed to his students\' progress. It was an honor and a great opportunity to work alongside him to bring cloud computing to more people seeking opportunities in this IT field.',
+    },
+  },
+  {
+    name: 'Juan Pablo Huertas Nuñez',
+    title: { es: 'Desarrollador Web | PHP · Laravel · React · TypeScript', en: 'Web Developer | PHP · Laravel · React · TypeScript' },
+    rel:   { es: 'Compañero en Smart Data Contact', en: 'Teammate at Smart Data Contact' },
+    avatar: 'JP',
+    color: '#ec4899',
+    text: {
+      es: 'Trabajar con Mateo en Smart Data Contact fue una experiencia muy positiva. Siempre estuvo dispuesto a escuchar al equipo y a buscar soluciones prácticas para los retos que enfrentamos. Su manera de coordinar proyectos y mantenernos enfocados fue clave para cumplir los objetivos. Fue un gusto formar parte de su equipo.',
+      en: 'Working with Mateo at Smart Data Contact was a very positive experience. He was always willing to listen to the team and find practical solutions to the challenges we faced. His way of coordinating projects and keeping us focused was key to meeting our objectives. It was a pleasure being part of his team.',
+    },
+  },
+  {
+    name: 'Johan Mateo Chiguachi Carmona',
+    title: { es: 'Full-Stack Developer | PHP · Vue.js · Node.js · AWS', en: 'Full-Stack Developer | PHP · Vue.js · Node.js · AWS' },
+    rel:   { es: 'Colega', en: 'Colleague' },
+    avatar: 'JM',
+    color: '#8b5cf6',
+    text: {
+      es: 'Conozco todo su proceso de aprendizaje — puedo decir que Mateo es una persona inteligente, responsable, dedicada y disciplinada, con un alto potencial para desempeñar un excelente trabajo.',
+      en: 'I have witnessed his entire learning journey — I can say that Mateo is an intelligent, responsible, dedicated and disciplined person, with high potential to deliver excellent work.',
+    },
+  },
+]
+
 // ─── ANIMATION HELPERS ────────────────────────────────────────────────────────
 
 const fadeUp = {
@@ -483,6 +565,114 @@ function Contact() {
   )
 }
 
+// ─── RECOMMENDATIONS ─────────────────────────────────────────────────────────
+
+function Recommendations() {
+  const { lang } = useLang()
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const [active, setActive] = useState(0)
+
+  const rec = RECS[active]
+
+  return (
+    <section id="recomendaciones" className="py-24 px-6" ref={ref}>
+      <div className="max-w-5xl mx-auto">
+        <Section>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>
+            {t.recommendations.label[lang]}
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-black mb-3">{t.recommendations.title[lang]}</h2>
+          <p className="text-base mb-12" style={{ color: '#64748b' }}>{t.recommendations.subtitle[lang]}</p>
+        </Section>
+
+        {/* Avatar selector */}
+        <motion.div
+          className="flex flex-wrap gap-3 mb-8"
+          variants={stagger} initial="hidden" animate={inView ? 'show' : 'hidden'}
+        >
+          {RECS.map((r, i) => (
+            <motion.button
+              key={r.name} variants={fadeIn}
+              onClick={() => setActive(i)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all"
+              style={{
+                background: active === i ? `${r.color}20` : '#111827',
+                border: `1px solid ${active === i ? r.color : '#1e2d45'}`,
+                color: active === i ? r.color : '#64748b',
+              }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                style={{ background: `${r.color}25`, color: r.color }}>
+                {r.avatar}
+              </span>
+              <span className="hidden sm:block">{r.name.split(' ')[0]}</span>
+            </motion.button>
+          ))}
+        </motion.div>
+
+        {/* Quote card */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.35 }}
+            className="rounded-2xl p-8"
+            style={{ background: '#111827', border: `1px solid ${rec.color}30` }}
+          >
+            {/* Quote mark */}
+            <div className="text-5xl leading-none mb-4 font-serif" style={{ color: rec.color, opacity: 0.4 }}>"</div>
+
+            <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: '#cbd5e1' }}>
+              {rec.text[lang]}
+            </p>
+
+            <div className="flex items-center gap-4 pt-6" style={{ borderTop: '1px solid #1e2d45' }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0"
+                style={{ background: `${rec.color}20`, color: rec.color, border: `2px solid ${rec.color}40` }}>
+                {rec.avatar}
+              </div>
+              <div>
+                <p className="font-bold">{rec.name}</p>
+                <p className="text-sm" style={{ color: '#64748b' }}>{rec.title[lang]}</p>
+                <p className="text-xs mt-0.5" style={{ color: rec.color }}>{rec.rel[lang]}</p>
+              </div>
+              <motion.a
+                href="https://www.linkedin.com/in/mateo-loaiza-rios/details/recommendations/"
+                target="_blank" rel="noopener"
+                className="ml-auto inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg"
+                style={{ border: '1px solid #1e2d45', color: '#64748b' }}
+                whileHover={{ borderColor: '#0077b5', color: '#0077b5', scale: 1.04 }}
+              >
+                <Linkedin size={13} />
+                {t.recommendations.cta[lang]}
+              </motion.a>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-6">
+          {RECS.map((r, i) => (
+            <button key={i} onClick={() => setActive(i)}>
+              <motion.div
+                className="rounded-full"
+                animate={{ width: active === i ? 20 : 8, background: active === i ? r.color : '#1e2d45' }}
+                style={{ height: 8 }}
+                transition={{ duration: 0.3 }}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 
 function Footer() {
@@ -503,6 +693,7 @@ export default function Home() {
       <About />
       <Projects />
       <Experience />
+      <Recommendations />
       <Contact />
       <Footer />
     </>
