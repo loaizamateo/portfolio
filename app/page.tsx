@@ -231,9 +231,12 @@ function Hero() {
           </span>
         </motion.h1>
 
-        <motion.p className="text-xl sm:text-2xl font-medium mb-6" style={{ color: '#94a3b8' }}
+        <motion.p className="text-xl sm:text-2xl font-medium mb-6"
+          style={{ color: '#94a3b8', fontFamily: 'var(--font-heading)' }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-          Full Stack Engineer · AWS Cloud Practitioner
+          Full Stack Engineer{' '}
+          <span style={{ color: '#3b82f6', fontFamily: 'var(--font-mono)', fontSize: '0.9em' }}>{'{ }'}</span>{' '}
+          AWS Cloud Practitioner
         </motion.p>
 
         <motion.p className="text-base sm:text-lg max-w-2xl mb-10 leading-relaxed" style={{ color: '#64748b' }}
@@ -269,8 +272,8 @@ function Hero() {
         <motion.div className="flex flex-wrap gap-2" variants={stagger} initial="hidden" animate="show">
           {['JavaScript', 'TypeScript', 'React', 'Node.js', 'AWS', 'NestJS', 'PostgreSQL', 'Docker'].map(tech => (
             <motion.span key={tech} variants={fadeIn}
-              className="px-3 py-1 text-xs rounded-full font-mono"
-              style={{ background: '#111827', border: '1px solid #1e2d45', color: '#64748b' }}
+              className="px-3 py-1 text-xs rounded-full"
+              style={{ background: '#111827', border: '1px solid #1e2d45', color: '#64748b', fontFamily: 'var(--font-mono)' }}
               whileHover={{ borderColor: '#3b82f6', color: '#93c5fd', scale: 1.05 }}>
               {tech}
             </motion.span>

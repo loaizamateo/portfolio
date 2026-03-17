@@ -19,8 +19,16 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body), 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+}
+
+code, kbd, pre, .font-mono {
+  font-family: var(--font-mono), 'Fira Code', 'JetBrains Mono', monospace;
 }
 
 ::selection { background: #3b82f630; }

@@ -1,9 +1,21 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Space_Grotesk, Fira_Code, Inter } from 'next/font/google'
 import { LangProvider } from '@/lib/lang-context'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-heading',
+  weight: ['400', '500', '600', '700'],
+})
+
+const firaCode = Fira_Code({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  weight: ['400', '500', '600'],
+})
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 
 export const metadata: Metadata = {
   title: 'Mateo Loaiza — Full Stack & Cloud Engineer',
@@ -33,7 +45,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} ${firaCode.variable}`}>
         <LangProvider>{children}</LangProvider>
       </body>
     </html>
