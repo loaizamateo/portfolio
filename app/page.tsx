@@ -571,7 +571,13 @@ function Recommendations() {
   const { lang } = useLang()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
-  const [active, setActive] = useState(0)
+  const [active, setActive]     = useState(0)
+  const [slideDir, setSlideDir] = useState(1)
+
+  const go = (next: number) => {
+    setSlideDir(next > active ? 1 : -1)
+    setActive(next)
+  }
 
   const rec = RECS[active]
 
@@ -594,7 +600,7 @@ function Recommendations() {
           {RECS.map((r, i) => (
             <motion.button
               key={r.name} variants={fadeIn}
-              onClick={() => setActive(i)}
+              onClick={() => go(i)}
               className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all"
               style={{
                 background: active === i ? `${r.color}20` : '#111827',
@@ -614,15 +620,26 @@ function Recommendations() {
         </motion.div>
 
         {/* Quote card */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={slideDir}>
           <motion.div
             key={active}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.35 }}
-            className="rounded-2xl p-8"
-            style={{ background: '#111827', border: `1px solid ${rec.color}30` }}
+            custom={slideDir}
+            variants={{
+              enter:  (d: number) => ({ opacity: 0, x: d > 0 ? 80 : -80 }),
+              center: { opacity: 1, x: 0 },
+              exit:   (d: number) => ({ opacity: 0, x: d > 0 ? -80 : 80 }),
+            }}
+            initial="enter" animate="center" exit="exit"
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.15}
+            onDragEnd={(_e, info) => {
+              if (info.offset.x < -50)      go((active + 1) % RECS.length)
+              else if (info.offset.x > 50)  go((active - 1 + RECS.length) % RECS.length)
+            }}
+            className="rounded-2xl p-8 cursor-grab active:cursor-grabbing select-none"
+            style={{ background: '#111827', border: `1px solid ${rec.color}30`, touchAction: 'pan-y' }}
           >
             {/* Quote mark */}
             <div className="text-5xl leading-none mb-4 font-serif" style={{ color: rec.color, opacity: 0.4 }}>"</div>
@@ -658,7 +675,7 @@ function Recommendations() {
         {/* Dots */}
         <div className="flex justify-center gap-2 mt-6">
           {RECS.map((r, i) => (
-            <button key={i} onClick={() => setActive(i)}>
+            <button key={i} onClick={() => go(i)}>
               <motion.div
                 className="rounded-full"
                 animate={{ width: active === i ? 20 : 8, background: active === i ? r.color : '#1e2d45' }}
