@@ -581,7 +581,7 @@ function Contact() {
 function Footer() {
   return (
     <footer className="py-8 px-6 text-center text-xs" style={{ color: '#334155', borderTop: '1px solid #1e2d45' }}>
-      <p>© {new Date().getFullYear()} Mateo Loaiza Rios · Construido con Next.js</p>
+      <p>© {new Date().getFullYear()} Mateo Loaiza Rios</p>
     </footer>
   )
 }
