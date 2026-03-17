@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Github, Linkedin, Mail, Phone, ExternalLink, ChevronDown, Code2, Cloud, Database, Cpu } from 'lucide-react'
+import { useLang } from '@/lib/lang-context'
+import { t } from '@/lib/i18n'
 
 // ─── ANIMATION HELPERS ────────────────────────────────────────────────────────
 
@@ -10,85 +12,55 @@ const fadeUp = {
   hidden: { opacity: 0, y: 32 },
   show:   { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' as const } },
 }
-
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
-}
-
-const fadeIn = {
-  hidden: { opacity: 0 },
-  show:   { opacity: 1, transition: { duration: 0.5 } },
-}
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.08 } } }
+const fadeIn  = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.5 } } }
 
 function Section({ children, className = '', style = {} }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
   return (
-    <motion.div
-      ref={ref}
-      variants={fadeUp}
-      initial="hidden"
-      animate={inView ? 'show' : 'hidden'}
-      className={className}
-      style={style}
-    >
+    <motion.div ref={ref} variants={fadeUp} initial="hidden" animate={inView ? 'show' : 'hidden'} className={className} style={style}>
       {children}
     </motion.div>
   )
 }
 
-// ─── DATA ─────────────────────────────────────────────────────────────────────
+// ─── SKILLS ───────────────────────────────────────────────────────────────────
 
 const SKILLS = {
-  'Frontend': ['React.js', 'Next.js', 'TypeScript', 'TailwindCSS', 'HTML/CSS'],
-  'Backend': ['Node.js', 'NestJS', 'Express', 'PHP', 'Python', 'Flask'],
+  'Frontend':       ['React.js', 'Next.js', 'TypeScript', 'TailwindCSS', 'HTML/CSS'],
+  'Backend':        ['Node.js', 'NestJS', 'Express', 'PHP', 'Python', 'Flask'],
   'Cloud & DevOps': ['AWS', 'Serverless Framework', 'GitHub Actions', 'Docker', 'CI/CD'],
-  'Bases de datos': ['PostgreSQL', 'MongoDB', 'MySQL', 'TypeORM', 'Mongoose'],
+  'Databases':      ['PostgreSQL', 'MongoDB', 'MySQL', 'TypeORM', 'Mongoose'],
 }
 
-const PROJECTS = [
-  {
-    name: 'DentalSystem',
-    tagline: 'SaaS odontológico multi-tenant',
-    description: 'Plataforma completa para clínicas dentales: historia clínica digital, odontograma interactivo, gestión de citas, planes de tratamiento, consentimientos informados y facturación. Arquitectura multi-tenant con schema-per-tenant en PostgreSQL.',
-    stack: ['NestJS', 'React', 'PostgreSQL', 'TypeORM', 'Docker', 'AWS'],
-    color: '#3b82f6',
-    emoji: '🦷',
-    url: 'https://dentalsystem.online',
-    highlights: ['Multi-tenant', 'Historia clínica PDF', 'Odontograma SVG', 'CI/CD'],
-  },
-  {
-    name: 'Divide',
-    tagline: 'App para dividir gastos entre amigos',
-    description: 'Aplicación mobile-first para dividir gastos con amigos sin necesidad de registro. Link compartible por WhatsApp, split equitativo o por consumo, integración con Nequi deep link y dashboard del organizador con magic link.',
-    stack: ['Next.js', 'Express', 'MongoDB', 'Railway', 'Vercel'],
-    color: '#6366f1',
-    emoji: '💸',
-    url: 'https://divideapp.online',
-    highlights: ['Sin registro', 'Nequi deep link', 'Magic link', 'PWA'],
-  },
-]
-
 const EXPERIENCE = [
-  { company: 'EPAM Systems', role: 'Senior Software Engineer', period: 'mayo 2022 — presente', duration: '~4 años', logo: '🌐' },
-  { company: 'BeTek', role: 'Formador Cloud', period: 'mar 2024 — ene 2025', duration: '11 meses', logo: '☁️' },
-  { company: 'Qrvey', role: 'Senior Backend Developer', period: 'nov 2021 — abr 2022', duration: '6 meses', logo: '📊' },
-  { company: 'Bancolombia / PRAGMA', role: 'Ingeniero de Desarrollo', period: 'ene 2021 — nov 2021', duration: '11 meses', logo: '🏦' },
-  { company: 'Smart Data Contact', role: 'Líder de Desarrollo de Software', period: 'abr 2018 — ene 2021', duration: '2 años 10 meses', logo: '💡' },
-  { company: 'Raddar', role: 'Software Engineer', period: 'feb 2020 — dic 2020', duration: '11 meses', logo: '📡' },
-  { company: 'TREE TECHS', role: 'Desarrollador y Diseñador Web', period: 'abr 2015 — abr 2018', duration: '3 años 1 mes', logo: '🌳' },
+  { company: 'EPAM Systems',        role: { es: 'Senior Software Engineer',         en: 'Senior Software Engineer' },         period: 'May 2022 — present',       duration: '~4 years', logo: '🌐' },
+  { company: 'BeTek',               role: { es: 'Formador Cloud',                   en: 'Cloud Trainer' },                    period: 'Mar 2024 — Jan 2025',      duration: '11 months', logo: '☁️' },
+  { company: 'Qrvey',               role: { es: 'Senior Backend Developer',          en: 'Senior Backend Developer' },          period: 'Nov 2021 — Apr 2022',      duration: '6 months', logo: '📊' },
+  { company: 'Bancolombia / PRAGMA', role: { es: 'Ingeniero de Desarrollo',          en: 'Software Engineer' },                period: 'Jan 2021 — Nov 2021',      duration: '11 months', logo: '🏦' },
+  { company: 'Smart Data Contact',  role: { es: 'Líder de Desarrollo de Software',   en: 'Software Development Lead' },        period: 'Apr 2018 — Jan 2021',      duration: '2y 10m', logo: '💡' },
+  { company: 'Raddar',              role: { es: 'Software Engineer',                 en: 'Software Engineer' },                period: 'Feb 2020 — Dec 2020',      duration: '11 months', logo: '📡' },
+  { company: 'TREE TECHS',         role: { es: 'Desarrollador y Diseñador Web',     en: 'Web Developer & Designer' },         period: 'Apr 2015 — Apr 2018',      duration: '3y 1m', logo: '🌳' },
 ]
 
 // ─── NAVBAR ───────────────────────────────────────────────────────────────────
 
 function Navbar() {
+  const { lang, toggle } = useLang()
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', fn)
     return () => window.removeEventListener('scroll', fn)
   }, [])
+
+  const navLinks = [
+    { id: 'sobre-mi',    label: t.nav.about[lang] },
+    { id: 'proyectos',   label: t.nav.projects[lang] },
+    { id: 'experiencia', label: t.nav.experience[lang] },
+    { id: 'contacto',    label: t.nav.contact[lang] },
+  ]
 
   return (
     <motion.nav
@@ -103,32 +75,35 @@ function Navbar() {
       }}
     >
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        <motion.span
-          className="font-bold text-sm"
-          style={{ color: '#3b82f6' }}
-          whileHover={{ scale: 1.1 }}
-        >ML</motion.span>
+        <motion.span className="font-bold text-sm" style={{ color: '#3b82f6' }} whileHover={{ scale: 1.1 }}>ML</motion.span>
         <div className="flex items-center gap-6 text-sm" style={{ color: '#64748b' }}>
-          {['sobre-mi', 'proyectos', 'experiencia', 'contacto'].map((s, i) => (
-            <motion.a
-              key={s} href={`#${s}`}
-              className="hover:text-white transition-colors capitalize hidden sm:block"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
+          {navLinks.map((item, i) => (
+            <motion.a key={item.id} href={`#${item.id}`}
+              className="hover:text-white transition-colors hidden sm:block"
+              initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.07 }}
               whileHover={{ y: -2 }}
-            >
-              {s.replace('-', ' ')}
-            </motion.a>
+            >{item.label}</motion.a>
           ))}
+
+          {/* Lang toggle */}
+          <motion.button
+            onClick={toggle}
+            className="text-xs font-bold px-2.5 py-1 rounded-lg transition-colors"
+            style={{ border: '1px solid #1e2d45', color: '#64748b' }}
+            whileHover={{ borderColor: '#3b82f6', color: '#93c5fd', scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {lang === 'es' ? 'EN' : 'ES'}
+          </motion.button>
+
           {[
             { href: 'https://github.com/loaizamateo', icon: <Github size={16} /> },
             { href: 'https://www.linkedin.com/in/mateo-loaiza-rios', icon: <Linkedin size={16} /> },
           ].map(({ href, icon }) => (
             <motion.a key={href} href={href} target="_blank" rel="noopener"
               className="hover:text-white transition-colors"
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.2, rotate: 5 }} whileTap={{ scale: 0.9 }}
             >{icon}</motion.a>
           ))}
         </div>
@@ -140,124 +115,85 @@ function Navbar() {
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 
 function Hero() {
+  const { lang } = useLang()
   const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 500], [0, 80])
+  const y       = useTransform(scrollY, [0, 500], [0, 80])
   const opacity = useTransform(scrollY, [0, 400], [1, 0])
-
-  const WORDS = ['escalables.', 'que perduran.', 'con impacto.', 'con pasión.']
+  const WORDS   = t.hero.words[lang]
   const [wordIdx, setWordIdx] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setWordIdx(i => (i + 1) % WORDS.length), 2500)
-    return () => clearInterval(t)
-  }, [])
+    setWordIdx(0)
+    const timer = setInterval(() => setWordIdx(i => (i + 1) % WORDS.length), 2500)
+    return () => clearInterval(timer)
+  }, [lang])
 
   return (
-    <motion.section
-      style={{ y, opacity }}
-      className="min-h-screen flex flex-col justify-center px-6 pt-16"
-    >
+    <motion.section style={{ y, opacity }} className="min-h-screen flex flex-col justify-center px-6 pt-16">
       <div className="max-w-5xl mx-auto w-full">
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
-          style={{ background: '#0f2040', border: '1px solid #1e3a5f', color: '#60a5fa' }}
-        >
+          style={{ background: '#0f2040', border: '1px solid #1e3a5f', color: '#60a5fa' }}>
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-          Disponible para proyectos freelance
+          {t.hero.badge[lang]}
         </motion.div>
 
-        <motion.h1
-          className="text-5xl sm:text-7xl font-black tracking-tight mb-4 leading-none"
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
+        <motion.h1 className="text-5xl sm:text-7xl font-black tracking-tight mb-4 leading-none"
+          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
           Mateo{' '}
-          <span style={{
-            background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}>Loaiza</span>
+          <span style={{ background: 'linear-gradient(135deg, #3b82f6, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            Loaiza
+          </span>
         </motion.h1>
 
-        <motion.p
-          className="text-xl sm:text-2xl font-medium mb-6"
-          style={{ color: '#94a3b8' }}
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <motion.p className="text-xl sm:text-2xl font-medium mb-6" style={{ color: '#94a3b8' }}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
           Full Stack Engineer · AWS Cloud Practitioner
         </motion.p>
 
-        {/* Rotating words */}
-        <motion.p
-          className="text-base sm:text-lg max-w-2xl mb-10 leading-relaxed"
-          style={{ color: '#64748b' }}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          +10 años construyendo productos{' '}
+        <motion.p className="text-base sm:text-lg max-w-2xl mb-10 leading-relaxed" style={{ color: '#64748b' }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+          {t.hero.desc[lang]}{' '}
           <AnimatePresence mode="wait">
-            <motion.span
-              key={wordIdx}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              style={{ color: '#3b82f6', fontWeight: 600 }}
-            >
+            <motion.span key={`${lang}-${wordIdx}`}
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }} style={{ color: '#3b82f6', fontWeight: 600 }}>
               {WORDS[wordIdx]}
             </motion.span>
           </AnimatePresence>
-          {' '}Especializado en JavaScript/TypeScript y cloud AWS. Actualmente Senior Engineer en{' '}
+          {' '}{t.hero.at[lang]}{' '}
           <span style={{ color: '#94a3b8' }}>EPAM Systems</span>.
         </motion.p>
 
-        <motion.div
-          className="flex flex-wrap gap-3 mb-16"
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
+        <motion.div className="flex flex-wrap gap-3 mb-16"
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
           <motion.a href="#proyectos"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white"
             style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }}
-            whileHover={{ scale: 1.04, boxShadow: '0 0 20px #3b82f640' }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Ver proyectos
+            whileHover={{ scale: 1.04, boxShadow: '0 0 20px #3b82f640' }} whileTap={{ scale: 0.97 }}>
+            {t.hero.cta1[lang]}
           </motion.a>
           <motion.a href="#contacto"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm"
             style={{ border: '1px solid #1e2d45', color: '#94a3b8' }}
-            whileHover={{ scale: 1.04, borderColor: '#3b82f6', color: '#fff' }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Contactar
+            whileHover={{ scale: 1.04, borderColor: '#3b82f6', color: '#fff' }} whileTap={{ scale: 0.97 }}>
+            {t.hero.cta2[lang]}
           </motion.a>
         </motion.div>
 
-        <motion.div
-          className="flex flex-wrap gap-2"
-          variants={stagger} initial="hidden" animate="show"
-        >
-          {['JavaScript', 'TypeScript', 'React', 'Node.js', 'AWS', 'NestJS', 'PostgreSQL', 'Docker'].map(t => (
-            <motion.span key={t} variants={fadeIn}
+        <motion.div className="flex flex-wrap gap-2" variants={stagger} initial="hidden" animate="show">
+          {['JavaScript', 'TypeScript', 'React', 'Node.js', 'AWS', 'NestJS', 'PostgreSQL', 'Docker'].map(tech => (
+            <motion.span key={tech} variants={fadeIn}
               className="px-3 py-1 text-xs rounded-full font-mono"
               style={{ background: '#111827', border: '1px solid #1e2d45', color: '#64748b' }}
-              whileHover={{ borderColor: '#3b82f6', color: '#93c5fd', scale: 1.05 }}
-            >
-              {t}
+              whileHover={{ borderColor: '#3b82f6', color: '#93c5fd', scale: 1.05 }}>
+              {tech}
             </motion.span>
           ))}
         </motion.div>
 
-        <motion.div
-          className="mt-16 flex justify-center"
-          style={{ color: '#1e2d45' }}
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-        >
+        <motion.div className="mt-16 flex justify-center" style={{ color: '#1e2d45' }}
+          animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}>
           <ChevronDown size={20} />
         </motion.div>
       </div>
@@ -268,65 +204,54 @@ function Hero() {
 // ─── ABOUT ────────────────────────────────────────────────────────────────────
 
 function About() {
-  const icons = [
-    { icon: <Code2 size={20} />, label: 'Full Stack', desc: 'React, Node.js, TypeScript' },
-    { icon: <Cloud size={20} />, label: 'Cloud AWS', desc: 'Serverless, Lambda, EC2, S3' },
-    { icon: <Database size={20} />, label: 'Bases de datos', desc: 'PostgreSQL, MongoDB, MySQL' },
-    { icon: <Cpu size={20} />, label: 'DevOps', desc: 'Docker, CI/CD, GitHub Actions' },
-  ]
+  const { lang } = useLang()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  const areas = [
+    { icon: <Code2 size={20} />, label: t.about.areas.frontend[lang], desc: 'React, Node.js, TypeScript' },
+    { icon: <Cloud size={20} />,    label: t.about.areas.cloud[lang],    desc: 'Serverless, Lambda, EC2, S3' },
+    { icon: <Database size={20} />, label: t.about.areas.db[lang],       desc: 'PostgreSQL, MongoDB, MySQL' },
+    { icon: <Cpu size={20} />,      label: t.about.areas.devops[lang],   desc: 'Docker, CI/CD, GitHub Actions' },
+  ]
 
   return (
     <section id="sobre-mi" className="py-24 px-6" ref={ref}>
       <div className="max-w-5xl mx-auto">
         <Section>
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>sobre mí</p>
-          <h2 className="text-3xl sm:text-4xl font-black mb-12">Construyo software que escala</h2>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>{t.about.label[lang]}</p>
+          <h2 className="text-3xl sm:text-4xl font-black mb-12">{t.about.title[lang]}</h2>
         </Section>
 
         <Section>
           <div className="grid sm:grid-cols-3 gap-12 mb-16 items-start">
-            <motion.div
-              className="flex justify-center sm:justify-start"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.6 }}
-              whileHover={{ scale: 1.03 }}
-            >
-              <img
-                src="https://avatars.githubusercontent.com/u/12507783?v=4"
-                alt="Mateo Loaiza Rios"
-                className="rounded-2xl object-cover"
-                style={{ width: 200, height: 200, border: '2px solid #1e2d45' }}
-              />
+            <motion.div className="flex justify-center sm:justify-start"
+              initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6 }} whileHover={{ scale: 1.03 }}>
+              <img src="https://avatars.githubusercontent.com/u/12507783?v=4" alt="Mateo Loaiza Rios"
+                className="rounded-2xl object-cover" style={{ width: 200, height: 200, border: '2px solid #1e2d45' }} />
             </motion.div>
             <div className="sm:col-span-2 grid sm:grid-cols-2 gap-8">
               <div className="space-y-4 text-base leading-relaxed" style={{ color: '#94a3b8' }}>
-                <p>Ingeniero de Sistemas de la Universidad de Manizales con +10 años de experiencia desarrollando aplicaciones web y servicios cloud. Actualmente Senior Software Engineer en <strong style={{ color: '#f1f5f9' }}>EPAM Systems</strong>.</p>
-                <p>Me especializo en JavaScript/TypeScript full stack, arquitecturas cloud en AWS y construcción de productos SaaS desde cero.</p>
+                <p>{t.about.bio1[lang]} <strong style={{ color: '#f1f5f9' }}>EPAM Systems</strong>{t.about.bio1b[lang]}</p>
+                <p>{t.about.bio2[lang]}</p>
               </div>
               <div className="space-y-4 text-base leading-relaxed" style={{ color: '#94a3b8' }}>
-                <p>Fuera del trabajo corporativo, construyo mis propios productos: un SaaS odontológico multi-tenant en producción y una app de división de gastos.</p>
-                <p>Perfeccionista por naturaleza, me gusta planear bien antes de ejecutar. Bilingüe español/inglés.</p>
+                <p>{t.about.bio3[lang]}</p>
+                <p>{t.about.bio4[lang]}</p>
               </div>
             </div>
           </div>
         </Section>
 
-        {/* Area cards */}
-        <motion.div
-          className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12"
-          variants={stagger} initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
-        >
-          {icons.map(({ icon, label, desc }) => (
+        <motion.div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12"
+          variants={stagger} initial="hidden" animate={inView ? 'show' : 'hidden'}>
+          {areas.map(({ icon, label, desc }) => (
             <motion.div key={label} variants={fadeUp}
               className="p-4 rounded-xl space-y-2"
               style={{ background: '#111827', border: '1px solid #1e2d45' }}
               whileHover={{ borderColor: '#3b82f640', y: -4, boxShadow: '0 8px 24px #3b82f615' }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
+              transition={{ type: 'spring', stiffness: 300 }}>
               <div style={{ color: '#3b82f6' }}>{icon}</div>
               <p className="font-semibold text-sm">{label}</p>
               <p className="text-xs" style={{ color: '#475569' }}>{desc}</p>
@@ -334,7 +259,6 @@ function About() {
           ))}
         </motion.div>
 
-        {/* Skills */}
         <Section>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {Object.entries(SKILLS).map(([cat, items]) => (
@@ -342,11 +266,9 @@ function About() {
                 <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#3b82f6' }}>{cat}</p>
                 <div className="flex flex-wrap gap-2">
                   {items.map(s => (
-                    <motion.span key={s}
-                      className="px-2 py-1 text-xs rounded-lg"
+                    <motion.span key={s} className="px-2 py-1 text-xs rounded-lg"
                       style={{ background: '#0f172a', border: '1px solid #1e2d45', color: '#94a3b8' }}
-                      whileHover={{ scale: 1.08, borderColor: '#3b82f6', color: '#93c5fd' }}
-                    >{s}</motion.span>
+                      whileHover={{ scale: 1.08, borderColor: '#3b82f6', color: '#93c5fd' }}>{s}</motion.span>
                   ))}
                 </div>
               </div>
@@ -361,30 +283,45 @@ function About() {
 // ─── PROJECTS ─────────────────────────────────────────────────────────────────
 
 function Projects() {
+  const { lang } = useLang()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  const PROJECTS = [
+    {
+      name: 'DentalSystem',
+      tagline: t.projects.dental.tagline[lang],
+      description: t.projects.dental.desc[lang],
+      stack: ['NestJS', 'React', 'PostgreSQL', 'TypeORM', 'Docker', 'AWS'],
+      color: '#3b82f6', emoji: '🦷', url: 'https://dentalsystem.online',
+      highlights: ['Multi-tenant', 'PDF', 'Odontogram', 'CI/CD'],
+    },
+    {
+      name: 'Divide',
+      tagline: t.projects.divide.tagline[lang],
+      description: t.projects.divide.desc[lang],
+      stack: ['Next.js', 'Express', 'MongoDB', 'Railway', 'Vercel'],
+      color: '#6366f1', emoji: '💸', url: 'https://divideapp.online',
+      highlights: ['No sign-up', 'Nequi', 'Magic link', 'PWA'],
+    },
+  ]
 
   return (
     <section id="proyectos" className="py-24 px-6" style={{ background: '#0d1220' }} ref={ref}>
       <div className="max-w-5xl mx-auto">
         <Section>
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>proyectos</p>
-          <h2 className="text-3xl sm:text-4xl font-black mb-3">Lo que he construido</h2>
-          <p className="text-base mb-12" style={{ color: '#64748b' }}>Productos propios en producción</p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>{t.projects.label[lang]}</p>
+          <h2 className="text-3xl sm:text-4xl font-black mb-3">{t.projects.title[lang]}</h2>
+          <p className="text-base mb-12" style={{ color: '#64748b' }}>{t.projects.subtitle[lang]}</p>
         </Section>
 
-        <motion.div
-          className="grid sm:grid-cols-2 gap-6"
-          variants={stagger} initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
-        >
+        <motion.div className="grid sm:grid-cols-2 gap-6" variants={stagger} initial="hidden" animate={inView ? 'show' : 'hidden'}>
           {PROJECTS.map(p => (
             <motion.div key={p.name} variants={fadeUp}
               className="rounded-2xl p-6 flex flex-col gap-4"
               style={{ background: '#111827', border: '1px solid #1e2d45' }}
               whileHover={{ y: -6, boxShadow: `0 0 0 1px ${p.color}30, 0 20px 40px ${p.color}15` }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-            >
+              transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <motion.span className="text-3xl" whileHover={{ rotate: [0, -10, 10, 0], scale: 1.2 }} transition={{ duration: 0.4 }}>
@@ -395,25 +332,18 @@ function Projects() {
                     <p className="text-xs" style={{ color: '#64748b' }}>{p.tagline}</p>
                   </div>
                 </div>
-                <motion.a href={p.url} target="_blank" rel="noopener"
-                  style={{ color: '#475569' }}
-                  whileHover={{ color: '#fff', scale: 1.2, rotate: 10 }}
-                >
+                <motion.a href={p.url} target="_blank" rel="noopener" style={{ color: '#475569' }}
+                  whileHover={{ color: '#fff', scale: 1.2, rotate: 10 }}>
                   <ExternalLink size={16} />
                 </motion.a>
               </div>
-
               <p className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{p.description}</p>
-
               <div className="flex flex-wrap gap-2">
                 {p.highlights.map(h => (
                   <span key={h} className="px-2 py-0.5 text-xs rounded-full font-medium"
-                    style={{ background: `${p.color}15`, color: p.color, border: `1px solid ${p.color}30` }}>
-                    {h}
-                  </span>
+                    style={{ background: `${p.color}15`, color: p.color, border: `1px solid ${p.color}30` }}>{h}</span>
                 ))}
               </div>
-
               <div className="flex flex-wrap gap-2 pt-2 border-t" style={{ borderColor: '#1e2d45' }}>
                 {p.stack.map(s => (
                   <span key={s} className="text-xs font-mono" style={{ color: '#475569' }}>{s}</span>
@@ -426,12 +356,9 @@ function Projects() {
         <Section>
           <div className="mt-8 text-center">
             <motion.a href="https://github.com/loaizamateo" target="_blank" rel="noopener"
-              className="inline-flex items-center gap-2 text-sm"
-              style={{ color: '#64748b' }}
-              whileHover={{ color: '#fff', scale: 1.05 }}
-            >
-              <Github size={16} />
-              Ver más en GitHub
+              className="inline-flex items-center gap-2 text-sm" style={{ color: '#64748b' }}
+              whileHover={{ color: '#fff', scale: 1.05 }}>
+              <Github size={16} />{t.projects.github[lang]}
             </motion.a>
           </div>
         </Section>
@@ -443,6 +370,7 @@ function Projects() {
 // ─── EXPERIENCE ───────────────────────────────────────────────────────────────
 
 function Experience() {
+  const { lang } = useLang()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
@@ -450,30 +378,24 @@ function Experience() {
     <section id="experiencia" className="py-24 px-6" ref={ref}>
       <div className="max-w-5xl mx-auto">
         <Section>
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>experiencia</p>
-          <h2 className="text-3xl sm:text-4xl font-black mb-12">+10 años en la industria</h2>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>{t.experience.label[lang]}</p>
+          <h2 className="text-3xl sm:text-4xl font-black mb-12">{t.experience.title[lang]}</h2>
         </Section>
 
         <div className="relative">
           <div className="absolute left-4 top-0 bottom-0 w-px" style={{ background: '#1e2d45' }} />
-          <motion.div
-            className="space-y-6"
-            variants={stagger} initial="hidden"
-            animate={inView ? 'show' : 'hidden'}
-          >
+          <motion.div className="space-y-6" variants={stagger} initial="hidden" animate={inView ? 'show' : 'hidden'}>
             {EXPERIENCE.map((exp, i) => (
               <motion.div key={i} variants={fadeUp} className="relative flex gap-6 pl-12">
-                <motion.div
-                  className="absolute left-0 w-9 h-9 rounded-full flex items-center justify-center text-lg"
+                <motion.div className="absolute left-0 w-9 h-9 rounded-full flex items-center justify-center text-lg"
                   style={{ background: '#111827', border: '1px solid #1e2d45' }}
-                  whileHover={{ scale: 1.15, borderColor: '#3b82f6' }}
-                >
+                  whileHover={{ scale: 1.15, borderColor: '#3b82f6' }}>
                   {exp.logo}
                 </motion.div>
                 <div className="flex-1 pb-6">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
-                      <p className="font-bold">{exp.role}</p>
+                      <p className="font-bold">{exp.role[lang]}</p>
                       <p className="text-sm" style={{ color: '#3b82f6' }}>{exp.company}</p>
                     </div>
                     <div className="text-right">
@@ -487,20 +409,17 @@ function Experience() {
           </motion.div>
         </div>
 
-        {/* Education */}
         <div className="mt-16 pt-16" style={{ borderTop: '1px solid #1e2d45' }}>
           <Section>
-            <p className="text-xs font-semibold uppercase tracking-widest mb-8" style={{ color: '#3b82f6' }}>educación</p>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-8" style={{ color: '#3b82f6' }}>{t.experience.edu[lang]}</p>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
-                { school: 'Universidad de Manizales', degree: 'Ingeniería de Sistemas y Telecomunicaciones', period: '2016 — 2021' },
-                { school: 'SENA', degree: 'Tecnología en Análisis y Desarrollo de Sistemas de Información', period: '2014 — 2016' },
+                { school: 'Universidad de Manizales', degree: t.experience.degrees.umanizales[lang], period: '2016 — 2021' },
+                { school: 'SENA',                    degree: t.experience.degrees.sena[lang],        period: '2014 — 2016' },
               ].map(e => (
-                <motion.div key={e.school}
-                  className="p-4 rounded-xl"
+                <motion.div key={e.school} className="p-4 rounded-xl"
                   style={{ background: '#111827', border: '1px solid #1e2d45' }}
-                  whileHover={{ borderColor: '#3b82f640', y: -3 }}
-                >
+                  whileHover={{ borderColor: '#3b82f640', y: -3 }}>
                   <p className="font-semibold">{e.school}</p>
                   <p className="text-sm mt-1" style={{ color: '#94a3b8' }}>{e.degree}</p>
                   <p className="text-xs mt-1" style={{ color: '#475569' }}>{e.period}</p>
@@ -517,41 +436,32 @@ function Experience() {
 // ─── CONTACT ──────────────────────────────────────────────────────────────────
 
 function Contact() {
-  const waLink = `https://wa.me/573128423580?text=${encodeURIComponent('Hola Mateo, vi tu portafolio y me gustaría contactarte.')}`
+  const { lang } = useLang()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+  const waLink = `https://wa.me/573128423580?text=${encodeURIComponent(t.contact.waMsg[lang])}`
 
   return (
     <section id="contacto" className="py-24 px-6" style={{ background: '#0d1220' }} ref={ref}>
       <div className="max-w-5xl mx-auto">
         <Section>
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>contacto</p>
-          <h2 className="text-3xl sm:text-4xl font-black mb-4">¿Tienes un proyecto?</h2>
-          <p className="text-base mb-12 max-w-xl" style={{ color: '#64748b' }}>
-            Estoy disponible para proyectos freelance, consultoría cloud y colaboraciones. Hablemos.
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>{t.contact.label[lang]}</p>
+          <h2 className="text-3xl sm:text-4xl font-black mb-4">{t.contact.title[lang]}</h2>
+          <p className="text-base mb-12 max-w-xl" style={{ color: '#64748b' }}>{t.contact.subtitle[lang]}</p>
         </Section>
 
-        <motion.div
-          className="grid sm:grid-cols-3 gap-4 mb-10"
-          variants={stagger} initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
-        >
+        <motion.div className="grid sm:grid-cols-3 gap-4 mb-10" variants={stagger} initial="hidden" animate={inView ? 'show' : 'hidden'}>
           {[
-            { icon: <Mail size={18} />, label: 'Email', value: 'loaizamateo1227@gmail.com', href: 'mailto:loaizamateo1227@gmail.com' },
-            { icon: <Phone size={18} />, label: 'WhatsApp', value: '+57 312 842 3580', href: waLink },
-            { icon: <Linkedin size={18} />, label: 'LinkedIn', value: 'mateo-loaiza-rios', href: 'https://www.linkedin.com/in/mateo-loaiza-rios' },
+            { icon: <Mail size={18} />,    label: 'Email',     value: 'loaizamateo1227@gmail.com', href: 'mailto:loaizamateo1227@gmail.com' },
+            { icon: <Phone size={18} />,   label: 'WhatsApp',  value: '+57 312 842 3580',           href: waLink },
+            { icon: <Linkedin size={18} />, label: 'LinkedIn', value: 'mateo-loaiza-rios',          href: 'https://www.linkedin.com/in/mateo-loaiza-rios' },
           ].map(c => (
-            <motion.a key={c.label} href={c.href} target="_blank" rel="noopener"
-              variants={fadeUp}
+            <motion.a key={c.label} href={c.href} target="_blank" rel="noopener" variants={fadeUp}
               className="flex items-center gap-3 p-4 rounded-xl"
               style={{ background: '#111827', border: '1px solid #1e2d45' }}
-              whileHover={{ borderColor: '#3b82f6', y: -3, boxShadow: '0 8px 24px #3b82f615' }}
-            >
+              whileHover={{ borderColor: '#3b82f6', y: -3, boxShadow: '0 8px 24px #3b82f615' }}>
               <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ background: '#0f2040', color: '#3b82f6' }}>
-                {c.icon}
-              </div>
+                style={{ background: '#0f2040', color: '#3b82f6' }}>{c.icon}</div>
               <div>
                 <p className="text-xs" style={{ color: '#475569' }}>{c.label}</p>
                 <p className="text-sm font-medium truncate">{c.value}</p>
@@ -564,11 +474,8 @@ function Contact() {
           <motion.a href={waLink} target="_blank" rel="noopener"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white"
             style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)' }}
-            whileHover={{ scale: 1.05, boxShadow: '0 0 24px #25D36640' }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <span>💬</span>
-            Escribir por WhatsApp
+            whileHover={{ scale: 1.05, boxShadow: '0 0 24px #25D36640' }} whileTap={{ scale: 0.97 }}>
+            <span>💬</span>{t.contact.wa[lang]}
           </motion.a>
         </Section>
       </div>
