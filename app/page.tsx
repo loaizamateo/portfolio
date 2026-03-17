@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { Github, Linkedin, Mail, Phone, ExternalLink, ChevronDown, Code2, Cloud, Database, Cpu } from 'lucide-react'
+import { Github, Linkedin, Mail, Phone, ExternalLink, ChevronDown, Code2, Cloud, Database, Cpu, ChevronLeft, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
 import { useLang } from '@/lib/lang-context'
 import { t } from '@/lib/i18n'
 
@@ -364,6 +365,51 @@ function About() {
   )
 }
 
+// ─── PROJECT CAROUSEL ─────────────────────────────────────────────────────────
+
+function ProjectCarousel({ images, color }: { images: string[]; color: string }) {
+  const [idx, setIdx] = useState(0)
+  const prev = useCallback(() => setIdx(i => (i - 1 + images.length) % images.length), [images.length])
+  const next = useCallback(() => setIdx(i => (i + 1) % images.length), [images.length])
+
+  useEffect(() => {
+    const t = setTimeout(next, 3500)
+    return () => clearTimeout(t)
+  }, [idx, next])
+
+  return (
+    <div className="relative w-full overflow-hidden rounded-xl mb-4" style={{ aspectRatio: '16/9', background: '#0a0e1a' }}>
+      <AnimatePresence mode="wait">
+        <motion.div key={idx} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}
+          transition={{ duration: 0.35 }} className="absolute inset-0">
+          <Image src={images[idx]} alt={`screenshot-${idx}`} fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 50vw" />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Controls */}
+      {images.length > 1 && (
+        <>
+          <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 backdrop-blur-sm"
+            style={{ background: 'rgba(0,0,0,0.5)', color: '#fff' }}>
+            <ChevronLeft size={14} />
+          </button>
+          <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 backdrop-blur-sm"
+            style={{ background: 'rgba(0,0,0,0.5)', color: '#fff' }}>
+            <ChevronRight size={14} />
+          </button>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            {images.map((_, i) => (
+              <button key={i} onClick={() => setIdx(i)}
+                className="w-1.5 h-1.5 rounded-full transition-all"
+                style={{ background: i === idx ? color : 'rgba(255,255,255,0.3)', transform: i === idx ? 'scale(1.3)' : 'scale(1)' }} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
 // ─── PROJECTS ─────────────────────────────────────────────────────────────────
 
 function Projects() {
@@ -379,6 +425,13 @@ function Projects() {
       stack: ['NestJS', 'React', 'PostgreSQL', 'TypeORM', 'Docker', 'AWS'],
       color: '#3b82f6', emoji: '🦷', url: 'https://dentalsystem.online',
       highlights: ['Multi-tenant', 'PDF', 'Odontogram', 'CI/CD'],
+      screenshots: [
+        '/screenshots/dental-system/02-dashboard.png',
+        '/screenshots/dental-system/03-patients.png',
+        '/screenshots/dental-system/04-appointments.png',
+        '/screenshots/dental-system/01-login.png',
+        '/screenshots/dental-system/05-treatment-plans.png',
+      ],
     },
     {
       name: 'Divide',
@@ -387,6 +440,9 @@ function Projects() {
       stack: ['Next.js', 'Express', 'MongoDB', 'Railway', 'Vercel'],
       color: '#6366f1', emoji: '💸', url: 'https://divideapp.online',
       highlights: ['No sign-up', 'Nequi', 'Magic link', 'PWA'],
+      screenshots: [
+        '/screenshots/divide/01-home.png',
+      ],
     },
   ]
 
@@ -406,6 +462,9 @@ function Projects() {
               style={{ background: '#111827', border: '1px solid #1e2d45' }}
               whileHover={{ y: -6, boxShadow: `0 0 0 1px ${p.color}30, 0 20px 40px ${p.color}15` }}
               transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
+              {p.screenshots && p.screenshots.length > 0 && (
+                <ProjectCarousel images={p.screenshots} color={p.color} />
+              )}
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <motion.span className="text-3xl" whileHover={{ rotate: [0, -10, 10, 0], scale: 1.2 }} transition={{ duration: 0.4 }}>
