@@ -8,10 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Mateo Loaiza — Full Stack & Cloud Engineer',
   description: 'Senior Software Engineer especializado en JavaScript, AWS y arquitecturas cloud. +10 años de experiencia construyendo productos escalables.',
-  icons: {
-    icon: '/avatar.jpg',
-    apple: '/avatar-512.png',
-  },
+
   openGraph: {
     title: 'Mateo Loaiza — Full Stack & Cloud Engineer',
     description: 'Senior Software Engineer | AWS Cloud Practitioner | JavaScript Full Stack | +10 años de experiencia',
