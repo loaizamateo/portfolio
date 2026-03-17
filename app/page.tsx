@@ -212,29 +212,42 @@ function About() {
         <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>sobre mí</p>
         <h2 className="text-3xl sm:text-4xl font-black mb-12">Construyo software que escala</h2>
 
-        <div className="grid sm:grid-cols-2 gap-12 mb-16">
-          <div className="space-y-4 text-base leading-relaxed" style={{ color: '#94a3b8' }}>
-            <p>
-              Ingeniero de Sistemas de la Universidad de Manizales con +10 años de experiencia
-              desarrollando aplicaciones web y servicios cloud. Actualmente Senior Software Engineer
-              en <strong style={{ color: '#f1f5f9' }}>EPAM Systems</strong>, una de las compañías de
-              ingeniería de software más grandes del mundo.
-            </p>
-            <p>
-              Me especializo en JavaScript/TypeScript full stack, arquitecturas cloud en AWS y
-              construcción de productos SaaS desde cero. También he sido formador cloud, enseñando
-              tecnologías AWS a equipos de desarrollo.
-            </p>
+        <div className="grid sm:grid-cols-3 gap-12 mb-16 items-start">
+          {/* Foto */}
+          <div className="flex justify-center sm:justify-start">
+            <img
+              src="https://avatars.githubusercontent.com/u/12507783?v=4"
+              alt="Mateo Loaiza Rios"
+              className="rounded-2xl object-cover"
+              style={{ width: 200, height: 200, border: '2px solid #1e2d45' }}
+            />
           </div>
-          <div className="space-y-4 text-base leading-relaxed" style={{ color: '#94a3b8' }}>
-            <p>
-              Fuera del trabajo corporativo, construyo mis propios productos: un SaaS odontológico
-              multi-tenant en producción y una app de división de gastos con miles de potenciales usuarios.
-            </p>
-            <p>
-              Perfeccionista por naturaleza, me gusta planear bien antes de ejecutar y entregar con
-              calidad. Bilingüe español/inglés.
-            </p>
+
+          {/* Bio */}
+          <div className="sm:col-span-2 grid sm:grid-cols-2 gap-8">
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: '#94a3b8' }}>
+              <p>
+                Ingeniero de Sistemas de la Universidad de Manizales con +10 años de experiencia
+                desarrollando aplicaciones web y servicios cloud. Actualmente Senior Software Engineer
+                en <strong style={{ color: '#f1f5f9' }}>EPAM Systems</strong>, una de las compañías de
+                ingeniería de software más grandes del mundo.
+              </p>
+              <p>
+                Me especializo en JavaScript/TypeScript full stack, arquitecturas cloud en AWS y
+                construcción de productos SaaS desde cero. También he sido formador cloud, enseñando
+                tecnologías AWS a equipos de desarrollo.
+              </p>
+            </div>
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: '#94a3b8' }}>
+              <p>
+                Fuera del trabajo corporativo, construyo mis propios productos: un SaaS odontológico
+                multi-tenant en producción y una app de división de gastos con miles de potenciales usuarios.
+              </p>
+              <p>
+                Perfeccionista por naturaleza, me gusta planear bien antes de ejecutar y entregar con
+                calidad. Bilingüe español/inglés.
+              </p>
+            </div>
           </div>
         </div>
 
