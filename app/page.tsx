@@ -78,6 +78,13 @@ const EXPERIENCE = [
     duration: '11 meses',
     logo: '📡',
   },
+  {
+    company: 'TREE TECHS',
+    role: 'Desarrollador y Diseñador Web',
+    period: 'abr 2015 — abr 2018',
+    duration: '3 años 1 mes',
+    logo: '🌳',
+  },
 ]
 
 // ─── COMPONENTS ───────────────────────────────────────────────────────────────
@@ -150,7 +157,7 @@ function Hero() {
 
         {/* Description */}
         <p className="text-base sm:text-lg max-w-2xl mb-10 leading-relaxed" style={{ color: '#64748b' }}>
-          +9 años construyendo productos escalables. Especializado en JavaScript/TypeScript,
+          +10 años construyendo productos escalables. Especializado en JavaScript/TypeScript,
           arquitecturas cloud en AWS y ecosistema Node.js. Actualmente Senior Engineer en{' '}
           <span style={{ color: '#94a3b8' }}>EPAM Systems</span>.
         </p>
@@ -208,7 +215,7 @@ function About() {
         <div className="grid sm:grid-cols-2 gap-12 mb-16">
           <div className="space-y-4 text-base leading-relaxed" style={{ color: '#94a3b8' }}>
             <p>
-              Ingeniero de Sistemas de la Universidad de Manizales con +9 años de experiencia
+              Ingeniero de Sistemas de la Universidad de Manizales con +10 años de experiencia
               desarrollando aplicaciones web y servicios cloud. Actualmente Senior Software Engineer
               en <strong style={{ color: '#f1f5f9' }}>EPAM Systems</strong>, una de las compañías de
               ingeniería de software más grandes del mundo.
@@ -341,7 +348,7 @@ function Experience() {
     <section id="experiencia" className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
         <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#3b82f6' }}>experiencia</p>
-        <h2 className="text-3xl sm:text-4xl font-black mb-12">+9 años en la industria</h2>
+        <h2 className="text-3xl sm:text-4xl font-black mb-12">+10 años en la industria</h2>
 
         <div className="relative">
           {/* Línea vertical */}
