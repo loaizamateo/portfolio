@@ -199,6 +199,39 @@ function Navbar() {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 
+// ─── TYPEWRITER ───────────────────────────────────────────────────────────────
+function Typewriter({ text, delay = 0, className = '', style = {} }: {
+  text: string; delay?: number; className?: string; style?: React.CSSProperties
+}) {
+  const [displayed, setDisplayed] = useState('')
+  const [done, setDone] = useState(false)
+
+  useEffect(() => {
+    setDisplayed('')
+    setDone(false)
+    let i = 0
+    const start = setTimeout(() => {
+      const interval = setInterval(() => {
+        i++
+        setDisplayed(text.slice(0, i))
+        if (i >= text.length) { clearInterval(interval); setDone(true) }
+      }, 38)
+      return () => clearInterval(interval)
+    }, delay * 1000)
+    return () => clearTimeout(start)
+  }, [text, delay])
+
+  return (
+    <span className={className} style={style}>
+      {displayed}
+      {!done && (
+        <span className="inline-block w-0.5 h-[0.85em] ml-0.5 align-middle animate-pulse"
+          style={{ background: '#3b82f6', verticalAlign: 'middle' }} />
+      )}
+    </span>
+  )
+}
+
 function Hero() {
   const { lang } = useLang()
   const { scrollY } = useScroll()
@@ -206,6 +239,14 @@ function Hero() {
   const opacity = useTransform(scrollY, [0, 400], [1, 0])
   const WORDS   = t.hero.words[lang]
   const [wordIdx, setWordIdx] = useState(0)
+  const [nameReady, setNameReady] = useState(false)
+
+  // 'MateoLoaiza' = 11 chars × 38ms ≈ 420ms + 300ms delay = ~720ms total
+  useEffect(() => {
+    const t = setTimeout(() => setNameReady(true), 300 + 11 * 38 + 100)
+    return () => clearTimeout(t)
+  }, [])
+
   useEffect(() => {
     setWordIdx(0)
     const timer = setInterval(() => setWordIdx(i => (i + 1) % WORDS.length), 2500)
@@ -216,31 +257,59 @@ function Hero() {
     <motion.section style={{ y, opacity }} className="min-h-screen flex flex-col justify-center px-6 pt-16">
       <div className="max-w-5xl mx-auto w-full">
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+        {/* Badge */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
           style={{ background: '#0f2040', border: '1px solid #1e3a5f', color: '#60a5fa' }}>
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
           {t.hero.badge[lang]}
         </motion.div>
 
+        {/* Nombre con typewriter — estilo <MateoLoaiza /> */}
         <motion.h1 className="text-5xl sm:text-7xl font-black tracking-tight mb-4 leading-none"
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
-          Mateo{' '}
-          <span style={{ background: 'linear-gradient(135deg, #3b82f6, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Loaiza
-          </span>
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }}
+          style={{ fontFamily: 'var(--font-mono)' }}>
+          {/* < */}
+          <motion.span
+            initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.25 }}
+            style={{ color: '#3b82f6' }}>
+            {'<'}
+          </motion.span>
+          {/* Mateo */}
+          <Typewriter
+            text="Mateo"
+            delay={0.3}
+            style={{ color: '#f1f5f9' }}
+          />
+          {/* Loaiza — en gradient, empieza cuando Mateo termina */}
+          <Typewriter
+            text="Loaiza"
+            delay={0.3 + 5 * 0.038}
+            style={{ background: 'linear-gradient(135deg, #3b82f6, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+          />
+          {/* /> — aparece al final */}
+          <motion.span
+            initial={{ opacity: 0, x: 10 }} animate={{ opacity: nameReady ? 1 : 0, x: nameReady ? 0 : 10 }}
+            transition={{ duration: 0.25 }}
+            style={{ color: '#3b82f6' }}>
+            {' />'}
+          </motion.span>
         </motion.h1>
 
+        {/* Subtitle */}
         <motion.p className="text-xl sm:text-2xl font-medium mb-6"
           style={{ color: '#94a3b8', fontFamily: 'var(--font-heading)' }}
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: nameReady ? 1 : 0, y: nameReady ? 0 : 16 }}
+          transition={{ duration: 0.5 }}>
           Full Stack Engineer{' '}
           <span style={{ color: '#3b82f6', fontFamily: 'var(--font-mono)', fontSize: '0.9em' }}>{'{ }'}</span>{' '}
           AWS Cloud Practitioner
         </motion.p>
 
+        {/* Desc */}
         <motion.p className="text-base sm:text-lg max-w-2xl mb-10 leading-relaxed" style={{ color: '#64748b' }}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: nameReady ? 1 : 0, y: nameReady ? 0 : 12 }}
+          transition={{ duration: 0.5, delay: 0.1 }}>
           {t.hero.desc[lang]}{' '}
           <AnimatePresence mode="wait">
             <motion.span key={`${lang}-${wordIdx}`}
@@ -253,8 +322,10 @@ function Hero() {
           <span style={{ color: '#94a3b8' }}>EPAM Systems</span>.
         </motion.p>
 
+        {/* CTAs */}
         <motion.div className="flex flex-wrap gap-3 mb-16"
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: nameReady ? 1 : 0, y: nameReady ? 0 : 12 }}
+          transition={{ duration: 0.5, delay: 0.2 }}>
           <motion.a href="#proyectos"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white"
             style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }}
@@ -269,15 +340,20 @@ function Hero() {
           </motion.a>
         </motion.div>
 
-        <motion.div className="flex flex-wrap gap-2" variants={stagger} initial="hidden" animate="show">
-          {['JavaScript', 'TypeScript', 'React', 'Node.js', 'AWS', 'NestJS', 'PostgreSQL', 'Docker'].map(tech => (
-            <motion.span key={tech} variants={fadeIn}
-              className="px-3 py-1 text-xs rounded-full"
-              style={{ background: '#111827', border: '1px solid #1e2d45', color: '#64748b', fontFamily: 'var(--font-mono)' }}
-              whileHover={{ borderColor: '#3b82f6', color: '#93c5fd', scale: 1.05 }}>
-              {tech}
-            </motion.span>
-          ))}
+        {/* Tech pills */}
+        <motion.div className="flex flex-wrap gap-2"
+          initial={{ opacity: 0 }} animate={{ opacity: nameReady ? 1 : 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}>
+          <motion.div className="flex flex-wrap gap-2" variants={stagger} initial="hidden" animate={nameReady ? 'show' : 'hidden'}>
+            {['JavaScript', 'TypeScript', 'React', 'Node.js', 'AWS', 'NestJS', 'PostgreSQL', 'Docker'].map(tech => (
+              <motion.span key={tech} variants={fadeIn}
+                className="px-3 py-1 text-xs rounded-full"
+                style={{ background: '#111827', border: '1px solid #1e2d45', color: '#64748b', fontFamily: 'var(--font-mono)' }}
+                whileHover={{ borderColor: '#3b82f6', color: '#93c5fd', scale: 1.05 }}>
+                {tech}
+              </motion.span>
+            ))}
+          </motion.div>
         </motion.div>
 
         <motion.div className="mt-16 flex justify-center" style={{ color: '#1e2d45' }}
