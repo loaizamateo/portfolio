@@ -620,12 +620,12 @@ function Experience() {
                   {exp.logo}
                 </motion.div>
                 <div className="flex-1 pb-6">
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <div>
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2">
+                    <div className="min-w-0">
                       <p className="font-bold">{exp.role[lang]}</p>
                       <p className="text-sm" style={{ color: '#3b82f6' }}>{exp.company}</p>
                     </div>
-                    <div className="text-right">
+                    <div className="sm:text-right shrink-0">
                       <p className="text-xs" style={{ color: '#475569' }}>{exp.period}</p>
                       <p className="text-xs font-medium" style={{ color: '#64748b' }}>{exp.duration}</p>
                     </div>
