@@ -292,7 +292,8 @@ function Hero() {
             initial={{ opacity: 0, x: 10 }} animate={{ opacity: nameReady ? 1 : 0, x: nameReady ? 0 : 10 }}
             transition={{ duration: 0.25 }}
             style={{ color: '#3b82f6', whiteSpace: 'nowrap' }}>
-            {' />'}
+            {'/>'}
+
           </motion.span>
         </motion.h1>
 
