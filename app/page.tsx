@@ -266,7 +266,7 @@ function Hero() {
         </motion.div>
 
         {/* Nombre con typewriter — estilo <MateoLoaiza /> */}
-        <motion.h1 className="text-5xl sm:text-7xl font-black tracking-tight mb-4 leading-none"
+        <motion.h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-4 leading-tight"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }}
           style={{ fontFamily: 'var(--font-mono)' }}>
           {/* < */}
@@ -287,11 +287,11 @@ function Hero() {
             delay={0.3 + 5 * 0.038}
             style={{ background: 'linear-gradient(135deg, #3b82f6, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
           />
-          {/* /> — aparece al final */}
+          {/* /> — aparece al final, nowrap para que no se parta */}
           <motion.span
             initial={{ opacity: 0, x: 10 }} animate={{ opacity: nameReady ? 1 : 0, x: nameReady ? 0 : 10 }}
             transition={{ duration: 0.25 }}
-            style={{ color: '#3b82f6' }}>
+            style={{ color: '#3b82f6', whiteSpace: 'nowrap' }}>
             {' />'}
           </motion.span>
         </motion.h1>
