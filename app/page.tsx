@@ -243,7 +243,7 @@ function Hero() {
 
   // 'MateoLoaiza' = 11 chars × 38ms ≈ 420ms + 300ms delay = ~720ms total
   useEffect(() => {
-    const t = setTimeout(() => setNameReady(true), 300 + 11 * 38 + 100)
+    const t = setTimeout(() => setNameReady(true), 300 + 12 * 38 + 100)
     return () => clearTimeout(t)
   }, [])
 
@@ -283,7 +283,7 @@ function Hero() {
           />
           {/* Loaiza — en gradient, empieza cuando Mateo termina */}
           <Typewriter
-            text="Loaiza"
+            text=" Loaiza"
             delay={0.3 + 5 * 0.038}
             style={{ background: 'linear-gradient(135deg, #3b82f6, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
           />
