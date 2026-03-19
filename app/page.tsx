@@ -393,7 +393,7 @@ function About() {
             <motion.div className="flex justify-center sm:justify-start"
               initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6 }} whileHover={{ scale: 1.03 }}>
-              <img src="https://avatars.githubusercontent.com/u/12507783?v=4" alt="Mateo Loaiza Rios"
+              <img src="/avatar.jpg" alt="Mateo Loaiza Rios"
                 className="rounded-2xl object-cover" style={{ width: 200, height: 200, border: '2px solid #1e2d45' }} />
             </motion.div>
             <div className="sm:col-span-2 grid sm:grid-cols-2 gap-8">
