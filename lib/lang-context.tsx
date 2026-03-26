@@ -11,7 +11,14 @@ export function LangProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem('lang') as Lang | null
-    if (saved) setLang(saved)
+    if (saved) {
+      setLang(saved)
+    } else {
+      const browserLang = navigator.language?.toLowerCase() ?? ''
+      const detected: Lang = browserLang.startsWith('en') ? 'en' : 'es'
+      localStorage.setItem('lang', detected)
+      setLang(detected)
+    }
   }, [])
 
   const toggle = () => {
