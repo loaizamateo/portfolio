@@ -66,7 +66,6 @@ export const metadata: Metadata = {
     canonical: APP_URL,
   },
   icons: {
-    icon: '/favicon.ico',
     apple: '/avatar-512.png',
   },
 }
