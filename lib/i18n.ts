@@ -31,8 +31,8 @@ export const t = {
       en: 'I specialize in JavaScript/TypeScript full stack, cloud architectures on AWS, and building SaaS products from scratch.',
     },
     bio3:     {
-      es: 'Fuera del trabajo corporativo, construyo mis propios productos: un SaaS odontológico multi-tenant en producción y una app de división de gastos.',
-      en: 'Outside corporate work, I build my own products: a multi-tenant dental SaaS in production and a bill-splitting app.',
+      es: 'Fuera del trabajo corporativo, construyo mis propios productos: un SaaS odontológico multi-tenant en producción, una app de división de gastos y una plataforma open source de adopción animal.',
+      en: 'Outside corporate work, I build my own products: a multi-tenant dental SaaS in production, a bill-splitting app and an open source pet adoption platform.',
     },
     bio4:     {
       es: 'Perfeccionista por naturaleza, me gusta planear bien antes de ejecutar. Bilingüe español/inglés.',
@@ -62,6 +62,13 @@ export const t = {
       desc:    {
         es: 'Aplicación mobile-first para dividir gastos con amigos sin necesidad de registro. Link compartible por WhatsApp, split equitativo o por consumo, integración con Nequi deep link y dashboard del organizador con magic link.',
         en: 'Mobile-first app to split bills with friends with no sign-up required. Shareable WhatsApp link, equal or consumption-based split, Nequi deep link integration and organizer dashboard via magic link.',
+      },
+    },
+    adoptame: {
+      tagline: { es: 'Plataforma open source de adopción animal', en: 'Open source pet adoption platform' },
+      desc:    {
+        es: 'Plataforma gratuita que conecta mascotas que buscan hogar con familias en Latinoamérica. Búsqueda con filtros y geolocalización, flujo completo de solicitudes de adopción, panel para fundaciones, hogares de paso, donaciones directas y panel de administración. Monorepo con Turborepo.',
+        en: 'Free platform connecting pets in need of a home with families across Latin America. Filtered search with geolocation, full adoption request flow, shelter dashboard, foster homes, direct donations and an admin panel. Turborepo monorepo.',
       },
     },
   },

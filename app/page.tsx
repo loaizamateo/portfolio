@@ -528,6 +528,20 @@ function Projects() {
         '/screenshots/divide/08-vista-final.png',
       ],
     },
+    {
+      name: 'Adoptame',
+      tagline: t.projects.adoptame.tagline[lang],
+      description: t.projects.adoptame.desc[lang],
+      stack: ['Next.js', 'Fastify', 'MongoDB', 'Turborepo', 'Backblaze B2', 'Vercel', 'Railway'],
+      color: '#a855f7', emoji: '🐾', url: 'https://adoptame.app',
+      highlights: ['Open source', 'Geolocation', 'Donations', 'SEO'],
+      screenshots: [
+        '/screenshots/adoptame/01-home.png',
+        '/screenshots/adoptame/02-fundaciones.png',
+        '/screenshots/adoptame/03-register.png',
+        '/screenshots/adoptame/04-login.png',
+      ],
+    },
   ]
 
   return (
