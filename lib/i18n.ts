@@ -53,8 +53,8 @@ export const t = {
     dental: {
       tagline: { es: 'SaaS odontológico multi-tenant', en: 'Multi-tenant dental SaaS' },
       desc:    {
-        es: 'Plataforma completa para clínicas dentales: historia clínica digital, odontograma interactivo, gestión de citas, planes de tratamiento, consentimientos informados y facturación. Arquitectura multi-tenant con schema-per-tenant en PostgreSQL.',
-        en: 'Complete platform for dental clinics: digital medical records, interactive odontogram, appointment management, treatment plans, informed consents and billing. Multi-tenant architecture with schema-per-tenant in PostgreSQL.',
+        es: 'Plataforma completa para clínicas dentales: historia clínica digital, odontograma interactivo, gestión de citas, planes de tratamiento, consentimientos informados y facturación. Arquitectura multi-tenant con aislamiento de datos por clínica.',
+        en: 'Complete platform for dental clinics: digital medical records, interactive odontogram, appointment management, treatment plans, informed consents and billing. Multi-tenant architecture with per-clinic data isolation.',
       },
     },
     divide: {
@@ -67,8 +67,8 @@ export const t = {
     adoptame: {
       tagline: { es: 'Plataforma open source de adopción animal', en: 'Open source pet adoption platform' },
       desc:    {
-        es: 'Plataforma gratuita que conecta mascotas que buscan hogar con familias en Latinoamérica. Búsqueda con filtros y geolocalización, flujo completo de solicitudes de adopción, panel para fundaciones, hogares de paso, donaciones directas y panel de administración. Monorepo con Turborepo.',
-        en: 'Free platform connecting pets in need of a home with families across Latin America. Filtered search with geolocation, full adoption request flow, shelter dashboard, foster homes, direct donations and an admin panel. Turborepo monorepo.',
+        es: 'Plataforma gratuita que conecta mascotas que buscan hogar con familias en Latinoamérica. Búsqueda con filtros y geolocalización, flujo completo de solicitudes de adopción, panel para fundaciones, hogares de paso, donaciones directas y panel de administración.',
+        en: 'Free platform connecting pets in need of a home with families across Latin America. Filtered search with geolocation, full adoption request flow, shelter dashboard, foster homes, direct donations and an admin panel.',
       },
     },
   },
