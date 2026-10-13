@@ -502,7 +502,6 @@ function Projects() {
       name: 'DentalSystem',
       tagline: t.projects.dental.tagline[lang],
       description: t.projects.dental.desc[lang],
-      stack: ['NestJS', 'React', 'PostgreSQL', 'TypeORM', 'Docker', 'AWS'],
       color: '#3b82f6', emoji: '🦷', url: 'https://dentalsystem.online',
       highlights: ['Multi-tenant', 'PDF', 'Odontogram', 'CI/CD'],
       screenshots: [
@@ -517,7 +516,6 @@ function Projects() {
       name: 'Divide',
       tagline: t.projects.divide.tagline[lang],
       description: t.projects.divide.desc[lang],
-      stack: ['Next.js', 'Express', 'MongoDB', 'Railway', 'Vercel'],
       color: '#6366f1', emoji: '💸', url: 'https://divideapp.online',
       highlights: ['No sign-up', 'Nequi', 'Magic link', 'PWA'],
       screenshots: [
@@ -532,7 +530,6 @@ function Projects() {
       name: 'Adoptame',
       tagline: t.projects.adoptame.tagline[lang],
       description: t.projects.adoptame.desc[lang],
-      stack: ['Next.js', 'Fastify', 'MongoDB', 'Turborepo', 'Backblaze B2', 'Vercel', 'Railway'],
       color: '#a855f7', emoji: '🐾', url: 'https://adoptame.app',
       highlights: ['Open source', 'Geolocation', 'Donations', 'SEO'],
       screenshots: [
@@ -583,11 +580,6 @@ function Projects() {
                 {p.highlights.map(h => (
                   <span key={h} className="px-2 py-0.5 text-xs rounded-full font-medium"
                     style={{ background: `${p.color}15`, color: p.color, border: `1px solid ${p.color}30` }}>{h}</span>
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-2 pt-2 border-t" style={{ borderColor: '#1e2d45' }}>
-                {p.stack.map(s => (
-                  <span key={s} className="text-xs font-mono" style={{ color: '#475569' }}>{s}</span>
                 ))}
               </div>
             </motion.div>
